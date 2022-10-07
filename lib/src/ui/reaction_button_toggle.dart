@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import '../models/reaction.dart';
@@ -56,6 +58,9 @@ class ReactionButtonToggle<T> extends StatefulWidget {
   /// Scale duration while dragging [default = const Duration(milliseconds: 100)]
   final Duration? itemScaleDuration;
 
+  /// Default long press duration [default = const Duration(milliseconds: 500)]
+  final Duration longPressDuration;
+
   ReactionButtonToggle({
     Key? key,
     required this.onReactionChanged,
@@ -74,6 +79,7 @@ class ReactionButtonToggle<T> extends StatefulWidget {
     this.boxReactionSpacing = 0,
     this.itemScale = .3,
     this.itemScaleDuration,
+    this.longPressDuration = const Duration(milliseconds: 500),
   }) : super(key: key);
 
   @override
@@ -87,9 +93,12 @@ class _ReactionButtonToggleState<T> extends State<ReactionButtonToggle<T>> {
 
   bool _isChecked = false;
 
+  Timer? _timer;
+
   void _init() {
     _isChecked = widget.isChecked;
-    _selectedReaction = _isChecked ? widget.selectedReaction : widget.initialReaction;
+    _selectedReaction =
+        _isChecked ? widget.selectedReaction : widget.initialReaction;
   }
 
   @override
@@ -104,19 +113,27 @@ class _ReactionButtonToggleState<T> extends State<ReactionButtonToggle<T>> {
     _init();
   }
 
+  void _handleTapAndHold(TapDownDetails details) {
+    _timer = Timer(widget.longPressDuration,
+        () => _showReactionsBox(details.globalPosition));
+  }
+
   @override
   Widget build(BuildContext context) => GestureDetector(
         key: _buttonKey,
         behavior: HitTestBehavior.translucent,
         onTap: _onClickReactionButton,
-        onLongPressStart: (details) => _showReactionsBox(details.globalPosition),
+        onTapDown: _handleTapAndHold,
+        onTapUp: (_) => _timer?.cancel(),
         child: (_selectedReaction ?? widget.reactions[0])!.icon,
       );
 
   void _onClickReactionButton() {
     _isChecked = !_isChecked;
     _updateReaction(
-      _isChecked ? widget.selectedReaction ?? widget.reactions[0] : widget.initialReaction,
+      _isChecked
+          ? widget.selectedReaction ?? widget.reactions[0]
+          : widget.initialReaction,
     );
   }
 
@@ -154,7 +171,8 @@ class _ReactionButtonToggleState<T> extends State<ReactionButtonToggle<T>> {
     Reaction<T>? reaction, [
     bool isSelectedFromDialog = false,
   ]) {
-    _isChecked = isSelectedFromDialog ? true : reaction != widget.initialReaction;
+    _isChecked =
+        isSelectedFromDialog ? true : reaction != widget.initialReaction;
     widget.onReactionChanged.call(
       reaction?.value,
       _isChecked,
