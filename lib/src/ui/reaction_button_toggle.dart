@@ -114,7 +114,6 @@ class _ReactionButtonToggleState<T> extends State<ReactionButtonToggle<T>> {
   }
 
   void _handleTapAndHold(Offset position) {
-    print("on start: ${DateTime.now().millisecondsSinceEpoch}");
     _timer = Timer(widget.longPressDuration, () => _showReactionsBox(position));
   }
 
