@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_reaction_button/flutter_reaction_button.dart';
+import 'package:mg_flutter_reaction_button/mg_flutter_reaction_button.dart';
 
 class ItemContainer extends StatefulWidget {
   final String imgPath;
@@ -67,7 +67,7 @@ class _ItemContainerState extends State<ItemContainer>
                   boxShadow: [
                     BoxShadow(
                       color: Colors.black.withOpacity(.3),
-                      offset: const Offset(0 , 3),
+                      offset: const Offset(0, 3),
                       blurRadius: 3,
                     )
                   ],

@@ -1,8 +1,8 @@
-name: flutter_reaction_button
-description: Flutter button reaction it is fully customizable widget such as Facebook reaction button
+name: mg_flutter_reaction_button
+description: Flutter button reaction it is fully customizable widget such as Facebook reaction button with customizable longPress timeout
 version: 2.0.1+1
-homepage: https://github.com/GeekAbdelouahed/flutter-reaction-button
-repository: https://github.com/GeekAbdelouahed/flutter-reaction-button.git
+homepage: https://github.com/Gamezordd/mg-flutter-reaction-button
+repository: https://github.com/Gamezordd/mg-flutter-reaction-button.git
 
 environment:
   sdk: '>=2.12.0 <3.0.0'

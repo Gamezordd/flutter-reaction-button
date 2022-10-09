@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_reaction_button/flutter_reaction_button.dart';
+import 'package:mg_flutter_reaction_button/mg_flutter_reaction_button.dart';
 
 import '../data/example_data.dart' as Example;
 import 'common/item.dart';
