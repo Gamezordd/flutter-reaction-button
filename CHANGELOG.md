@@ -1,3 +1,6 @@
+## 2.0.1+101
+* Added variable longPress time
+
 ## 2.0.1+1
 
 * Minor bugs fixed. Thanks to [Kyle Venn](https://github.com/kvenn)
