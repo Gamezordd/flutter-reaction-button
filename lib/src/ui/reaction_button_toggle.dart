@@ -113,20 +113,31 @@ class _ReactionButtonToggleState<T> extends State<ReactionButtonToggle<T>> {
     _init();
   }
 
-  void _handleTapAndHold(TapDownDetails details) {
-    _timer = Timer(widget.longPressDuration,
-        () => _showReactionsBox(details.globalPosition));
+  void _handleTapAndHold(Offset position) {
+    print("on start: ${DateTime.now().millisecondsSinceEpoch}");
+    _timer = Timer(widget.longPressDuration, () => _showReactionsBox(position));
+  }
+
+  void _onTapUp() {
+    if (_timer != null) {
+      _onClickReactionButton();
+      _timer?.cancel();
+    }
   }
 
   @override
   Widget build(BuildContext context) => GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: () {
+        //prevent bubbling of events to parent
+      },
+      child: Listener(
         key: _buttonKey,
-        behavior: HitTestBehavior.translucent,
-        onTap: _onClickReactionButton,
-        onTapDown: _handleTapAndHold,
-        onTapUp: (_) => _timer?.cancel(),
+        behavior: HitTestBehavior.opaque,
+        onPointerUp: (_) => _onTapUp(),
+        onPointerDown: (event) => _handleTapAndHold(event.position),
         child: (_selectedReaction ?? widget.reactions[0])!.icon,
-      );
+      ));
 
   void _onClickReactionButton() {
     _isChecked = !_isChecked;
